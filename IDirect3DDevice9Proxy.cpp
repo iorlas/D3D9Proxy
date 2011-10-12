@@ -225,8 +225,8 @@ HRESULT IDirect3DDevice9Proxy::BeginScene(void){
 }
 
 HRESULT IDirect3DDevice9Proxy::EndScene(void){
-	if (callbacks[D3D9_DEVICE_FUNCTION::ENDSCENE])
-		((D3D9DeviceEndSceneFunc)callbacks[D3D9_DEVICE_FUNCTION::ENDSCENE])(this);
+	if (callbacks[ENDSCENE])
+		((D3D9DeviceEndSceneFunc)callbacks[ENDSCENE])(this);
 	return(origIDirect3DDevice9->EndScene());
 }
 
