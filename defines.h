@@ -5,7 +5,4 @@
 
 #include <d3d9.h>
 
-#include <boost/bind.hpp>
-#include <boost/function.hpp>
-
 #include "common.h"
