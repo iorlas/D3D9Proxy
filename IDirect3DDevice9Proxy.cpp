@@ -121,7 +121,10 @@ UINT IDirect3DDevice9Proxy::GetNumberOfSwapChains(void){
 }
 
 HRESULT IDirect3DDevice9Proxy::Reset(D3DPRESENT_PARAMETERS* pPresentationParameters){
-	return(origIDirect3DDevice9->Reset(pPresentationParameters));
+	HRESULT res = (origIDirect3DDevice9->Reset(pPresentationParameters));
+	if (callbacks[RESET])
+		((D3D9DeviceResetSFunc)callbacks[RESET])(this, res);
+	return res;
 }
 
 HRESULT IDirect3DDevice9Proxy::Present(CONST RECT* pSourceRect, CONST RECT* pDestRect, HWND hDestWindowOverride, CONST RGNDATA* pDirtyRegion){

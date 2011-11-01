@@ -48,6 +48,7 @@ HRESULT WINAPI GetDepthStencilSurface(IDirect3DSurface9** ppZStencilSurface);
 
 typedef void (* D3D9DeviceBeginSceneFunc)(IDirect3DDevice9* device);
 typedef void (* D3D9DeviceEndSceneFunc)(IDirect3DDevice9* device);
+typedef void (* D3D9DeviceResetSFunc)(IDirect3DDevice9* device, HRESULT res);
 
 #pragma region Dammit, im too lazy to get done it...
 /*
@@ -148,7 +149,9 @@ enum D3D9_DEVICE_FUNCTION{
 	CreateAdditionalSwapChain = 13,
 	GetSwapChain = 14,
 	GetNumberOfSwapChains = 15,
-	Reset = 16,
+	*/
+	RESET = 16,
+	/*
 	Present = 17,
 	GetBackBuffer = 18,
 	GetRasterStatus = 19,
