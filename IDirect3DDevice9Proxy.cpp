@@ -121,14 +121,19 @@ UINT IDirect3DDevice9Proxy::GetNumberOfSwapChains(void){
 }
 
 HRESULT IDirect3DDevice9Proxy::Reset(D3DPRESENT_PARAMETERS* pPresentationParameters){
+	if (callbacks[PRERESET])
+		((D3D9DevicePreResetFunc)callbacks[PRERESET])();
 	HRESULT res = (origIDirect3DDevice9->Reset(pPresentationParameters));
-	if (callbacks[RESET])
-		((D3D9DeviceResetSFunc)callbacks[RESET])(this, res);
+	if (callbacks[POSTRESET])
+		((D3D9DevicePostResetFunc)callbacks[POSTRESET])(this, res);
 	return res;
 }
 
 HRESULT IDirect3DDevice9Proxy::Present(CONST RECT* pSourceRect, CONST RECT* pDestRect, HWND hDestWindowOverride, CONST RGNDATA* pDirtyRegion){
-	return(origIDirect3DDevice9->Present(pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion));
+	HRESULT res = (origIDirect3DDevice9->Present(pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion));
+	if (callbacks[POSTPRESENT])
+		((D3D9DevicePostPresentFunc)callbacks[POSTPRESENT])(this, res);
+	return res;
 }
 
 HRESULT IDirect3DDevice9Proxy::GetBackBuffer(UINT iSwapChain, UINT iBackBuffer, D3DBACKBUFFER_TYPE Type, IDirect3DSurface9** ppBackBuffer){
